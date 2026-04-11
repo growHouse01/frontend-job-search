@@ -87,6 +87,8 @@ export async function searchProjects(projectName = "", nationalityAllowed = "") 
   // APIレスポンスをシミュレート（非同期処理）
   return new Promise((resolve, reject) => {
     try {
+      const normalizedNationalityAllowed = nationalityAllowed === '全て' ? '' : nationalityAllowed;
+
       // 検索条件でフィルタリング
       let filtered = MOCK_PROJECTS.filter(project => {
         // projectName指定時は部分一致
@@ -94,7 +96,7 @@ export async function searchProjects(projectName = "", nationalityAllowed = "") 
           return false;
         }
         // nationalityAllowed指定時は完全一致
-        if (nationalityAllowed && project.nationalityAllowed !== nationalityAllowed) {
+        if (normalizedNationalityAllowed && project.nationalityAllowed !== normalizedNationalityAllowed) {
           return false;
         }
         return true;
