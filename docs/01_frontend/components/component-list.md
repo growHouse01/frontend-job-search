@@ -1,23 +1,21 @@
-# コンポーネント一覧
+# 画面一覧
 
 画面ID: SCR-001
 画面名: 案件検索一覧画面
 
 ---
 
-## 1. コンポーネント一覧
+## 1. 画面一覧
 
-| コンポーネント名 | 種別 | 役割 | 入力 | 出力 |
+新規画面の設計MDは `docs/01_frontend/screens/SCREEN_TEMPLATE.md` の見出し順を基準に作成する。
+
+| 画面名 | 種別 | 役割 | 入力 | 出力 |
 |-----------------|------|------|------|------|
 | ProjectSearchPage | page | 画面全体とstate管理 | なし | なし |
-| ProjectSearchForm | component | 検索条件入力 | projectName, nationalityAllowed | onConditionChange |
-| ProjectSearchActions | component | 検索・クリアボタン | onSearch, onClear, loading | click event |
-| ProjectMessageArea | component | 件数・メッセージ表示 | totalCount, errorMessage, infoMessage | なし |
-| ProjectResultTable | component | 案件一覧テーブル表示 | items | なし |
 
 ---
 
-## 2. 分割方針
-- ページコンポーネントは state 管理と API 呼び出しを担当する
-- 子コンポーネントは表示責務中心とする
-- 子コンポーネントは可能な限り副作用を持たない
+## 2. 画面構成方針
+- 画面は単一実装を基本とする
+- 画面内の表示領域は検索条件エリア、操作エリア、メッセージエリア、結果一覧エリアとして扱う
+- 必要がある場合のみ、内部関数や小さな表示単位で整理する

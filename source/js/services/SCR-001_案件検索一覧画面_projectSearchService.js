@@ -1,10 +1,4 @@
-/**
- * projectSearchService.js
- * 案件検索ダミーAPI service層
- */
-
-// ダミーデータ
-const MOCK_PROJECTS = [
+﻿const PROJECTS = [
   {
     projectId: "PJ-001",
     projectName: "Java基幹システム改修",
@@ -77,40 +71,42 @@ const MOCK_PROJECTS = [
   }
 ];
 
-/**
- * 案件検索ダミーAPI呼び出し
- * @param {string} projectName - 案件名（部分一致検索）
- * @param {string} nationalityAllowed - 国籍可否（完全一致検索）
- * @returns {Promise<{items: Array, totalCount: number}>}
- */
-export async function searchProjects(projectName = "", nationalityAllowed = "") {
-  // APIレスポンスをシミュレート（非同期処理）
-  return new Promise((resolve, reject) => {
-    try {
-      const normalizedNationalityAllowed = nationalityAllowed === '全て' ? '' : nationalityAllowed;
+// 非同期処理を模擬する待機関数。
+// ダミーAPIでもローディング表示を確認しやすいように少し遅延させる。
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-      // 検索条件でフィルタリング
-      let filtered = MOCK_PROJECTS.filter(project => {
-        // projectName指定時は部分一致
-        if (projectName && !project.projectName.includes(projectName)) {
-          return false;
-        }
-        // nationalityAllowed指定時は完全一致
-        if (normalizedNationalityAllowed && project.nationalityAllowed !== normalizedNationalityAllowed) {
-          return false;
-        }
-        return true;
-      });
+// 検索用に値を正規化する。
+// 空白や大文字小文字差を吸収して、部分一致判定を安定させる。
+function normalize(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
 
-      // ダミーの非同期処理をシミュレート（100msのディレイ）
-      setTimeout(() => {
-        resolve({
-          items: filtered,
-          totalCount: filtered.length
-        });
-      }, 100);
-    } catch (error) {
-      reject(error);
-    }
+// 案件検索ダミーAPI。
+// 案件名は部分一致、国籍条件は完全一致で絞り込み、件数付きで返却する。
+export async function searchProjects({ projectName = "", nationalityAllowed = "all" } = {}) {
+  // 実APIを想定した待機を入れて、画面のローディング制御を確認しやすくする。
+  await delay(350);
+
+  const keyword = normalize(projectName);
+
+  // エラー表示の確認用に、特定キーワードで例外を発生させる。
+  if (keyword === "__error__" || keyword === "error" || keyword === "エラー") {
+    throw new Error("ダミー検索でエラーを発生させました");
+  }
+
+  // 検索条件に応じて配列をフィルタリングする。
+  const items = PROJECTS.filter((project) => {
+    const matchesName = !keyword || normalize(project.projectName).includes(keyword);
+    const matchesNationality =
+      nationalityAllowed === "all" || project.nationalityAllowed === nationalityAllowed;
+
+    return matchesName && matchesNationality;
   });
+
+  return {
+    items,
+    totalCount: items.length
+  };
 }
