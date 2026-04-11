@@ -24,13 +24,13 @@ export function renderProjectSearchForm(state, onConditionChange) {
             type="text" 
             id="projectName" 
             placeholder="案件名を入力"
-            maxlength="100"
+            maxlength="20"
           />
         </div>
         <div class="form-group">
-          <label for="nationalityAllowed">国籍可否:</label>
-          <select id="nationalityAllowed">
-            <option value="">-- 選択してください --</option>
+          <label for="nationalityAllowed">国籍可否 <span class="required">※</span>:</label>
+          <select id="nationalityAllowed" required>
+            <option value="全て">全て</option>
             <option value="可">可</option>
             <option value="不可">不可</option>
             <option value="要確認">要確認</option>
@@ -68,6 +68,18 @@ export function renderProjectSearchForm(state, onConditionChange) {
   if (nationalityAllowedSelect) {
     nationalityAllowedSelect.value = state.nationalityAllowed;
   }
+}
+
+/**
+ * 検索条件のバリデーション
+ * @param {string} nationalityAllowed - 国籍可否
+ * @returns {Object} {isValid: boolean, errorMessage: string}
+ */
+export function validateProjectSearch(nationalityAllowed) {
+  if (!nationalityAllowed || nationalityAllowed.trim() === "") {
+    return { isValid: false, errorMessage: "国籍可否を選択してください" };
+  }
+  return { isValid: true, errorMessage: "" };
 }
 
 /**

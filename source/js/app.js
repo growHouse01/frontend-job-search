@@ -5,7 +5,7 @@
  */
 
 import { searchProjects } from "./services/projectSearchService.js";
-import { renderProjectSearchForm } from "./components/ProjectSearchForm.js";
+import { renderProjectSearchForm, validateProjectSearch } from "./components/ProjectSearchForm.js";
 import { renderProjectSearchActions } from "./components/ProjectSearchActions.js";
 import { renderProjectMessageArea } from "./components/ProjectMessageArea.js";
 import { renderProjectResultTable } from "./components/ProjectResultTable.js";
@@ -16,7 +16,7 @@ import { renderProjectResultTable } from "./components/ProjectResultTable.js";
 let appState = {
   // 検索条件
   projectName: "",
-  nationalityAllowed: "",
+  nationalityAllowed: "全て",
   // 検索結果
   items: [],
   totalCount: 0,
@@ -58,6 +58,15 @@ function handleConditionChange(newCondition) {
  * 検索ボタン押下時のハンドラ
  */
 async function handleSearch() {
+  // バリデーションチェック
+  const validation = validateProjectSearch(appState.nationalityAllowed);
+  if (!validation.isValid) {
+    appState.errorMessage = validation.errorMessage;
+    appState.infoMessage = "";
+    render();
+    return;
+  }
+
   // ローディング状態
   appState.loading = true;
   appState.errorMessage = "";
@@ -97,7 +106,7 @@ function handleClear() {
   // 初期状態に戻す
   appState = {
     projectName: "",
-    nationalityAllowed: "",
+    nationalityAllowed: "全て",
     items: [],
     totalCount: 0,
     loading: false,

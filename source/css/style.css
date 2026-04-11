@@ -61,6 +61,11 @@ body {
   font-size: 14px;
 }
 
+.form-group .required {
+  color: #dc3545;
+  margin-left: 2px;
+}
+
 .form-group input,
 .form-group select {
   padding: 10px 12px;
