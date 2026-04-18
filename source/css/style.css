@@ -122,18 +122,17 @@ code {
 
 /* Search Form */
 .search-form {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: end;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 28px;
+  align-items: start;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-width: min(100%, 320px);
-  flex: 1 1 280px;
+  min-width: 0;
 }
 
 .form-group label {
@@ -177,6 +176,9 @@ code {
   gap: 12px;
   flex-wrap: wrap;
   align-items: center;
+  grid-column: 1 / -1;
+  justify-content: center;
+  margin-top: 6px;
 }
 
 .btn {
@@ -218,7 +220,7 @@ code {
 /* Summary / Messages */
 .status-grid {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 3fr);
   gap: 16px;
   align-items: start;
 }
@@ -227,12 +229,16 @@ code {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 18px;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 16px 18px;
   border-radius: 18px;
   background: linear-gradient(135deg, rgba(15, 98, 254, 0.12), rgba(15, 98, 254, 0.05));
   color: var(--info-text);
   font-weight: 700;
-  min-height: 68px;
+  min-height: 60px;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .count-chip__value {
@@ -244,6 +250,8 @@ code {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .message {
@@ -382,11 +390,17 @@ code {
   .status-grid {
     grid-template-columns: 1fr;
   }
+
+  .count-chip,
+  .message-stack {
+    grid-column: auto;
+    grid-row: auto;
+  }
 }
 
 @media (max-width: 640px) {
   .search-form {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .form-group {

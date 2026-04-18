@@ -30,7 +30,7 @@ function bindEvents() {
   document.getElementById("search-form")?.addEventListener("submit", handleSearch);
   document.getElementById("projectName")?.addEventListener("input", handleProjectNameChange);
   document.getElementById("nationalityAllowed")?.addEventListener("change", handleNationalityChange);
-  document.getElementById("clearButton")?.addEventListener("click", handleClear);
+  document.getElementById("clearBtn")?.addEventListener("click", handleClear);
 }
 
 // 案件名入力の変更を state に反映する。
@@ -130,8 +130,8 @@ function syncForm() {
 // ローディング中の操作制御。
 // 検索中は入力とボタンを無効化して、多重実行を避ける。
 function updateLoadingState(isLoading) {
-  const searchButton = document.getElementById("searchButton");
-  const clearButton = document.getElementById("clearButton");
+  const searchButton = document.getElementById("searchBtn");
+  const clearButton = document.getElementById("clearBtn");
   const projectNameInput = document.getElementById("projectName");
   const nationalitySelect = document.getElementById("nationalityAllowed");
 
